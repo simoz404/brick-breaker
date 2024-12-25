@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="styles/styles.css" />
+    <title>Bricks Breaker</title>
+  </head>
+
+  <body>
+    <div id="game-container">
+      <div id="game-area">
+        <div id="bricks-container"></div>
+      </div>
+      <div id="score-board">
+        <div id="timer">Time: <span>0</span></div>
+        <div id="score">Score: <span>0</span></div>
+        <div id="lives">Lives: <span>3</span></div>
+      </div>
+      <div id="pause-menu" class="hidden">
+        <button id="continue">Continue</button>
+        <button id="restart">Restart</button>
+      </div>
+    </div>
+
+    <script src="js/drawBricks.js"></script>
+    <script src="js/drawBallPaddle.js"></script>
+    <script src="js/movePaddle.js"></script>
+    <script src="js/moveBall.js"></script>
+  </body>
+</html>

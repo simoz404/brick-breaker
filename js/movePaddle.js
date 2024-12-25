@@ -3,6 +3,7 @@ let paddle = document.getElementById("paddle");
 let moveSpeed = 5;
 let isMovingLeft = false;
 let isMovingRight = false;
+let paddlePosition = 295;
 
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
@@ -23,16 +24,18 @@ function keyUpHandler(e) {
   }
 }
 
-function movePaddle() {
-  const paddleLeft = paddle.offsetLeft;
 
-  if (isMovingLeft && paddleLeft > 70) {
-    paddle.style.left = paddleLeft - moveSpeed + "px";
-  } else if (isMovingRight && paddleLeft < 670) {
-    paddle.style.left = paddleLeft + moveSpeed + "px";
+
+function movePaddle() {
+  if (isMovingLeft && paddlePosition > 0) {
+    paddlePosition -= moveSpeed;
+  } else if (isMovingRight && paddlePosition < 590) {
+    paddlePosition += moveSpeed;
   }
+
+  paddle.style.transform = `translateX(${paddlePosition}px)`;
 
   requestAnimationFrame(movePaddle);
 }
 
-movePaddle();
+requestAnimationFrame(movePaddle);

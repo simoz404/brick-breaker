@@ -26,6 +26,7 @@ function moveBall() {
       }, 1000)
     }
 
+    
     if (ballY > 600) {
         alert("Game Over")
         return

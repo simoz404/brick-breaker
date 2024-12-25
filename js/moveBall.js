@@ -1,7 +1,6 @@
 let ball = document.getElementById("ball");
 
 let bricks = document.getElementsByClassName("brick")
-console.log(bricks);
 
 function bricksBreakid() {
   
@@ -32,7 +31,6 @@ function moveBall() {
 
   ballX += velocityX;
   ballY += velocityY;
-  
   if (ballX < 0 || ballX > 720) {
     velocityX *= -1;
   }

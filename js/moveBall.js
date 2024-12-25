@@ -1,5 +1,25 @@
 let ball = document.getElementById("ball");
 
+let bricks = document.getElementsByClassName("brick")
+console.log(bricks);
+
+function bricksBreakid() {
+  
+  for (let brick of bricks) {
+    let recBrick = brick.getBoundingClientRect();
+    let recBall = ball.getBoundingClientRect();
+    
+    if ( !brick.classList.contains('breaked')  && (recBall.right > recBrick.left && 
+        recBall.left < recBrick.right &&
+        recBall.bottom > recBrick.top && 
+        recBall.top < recBrick.bottom)) {
+      brick.classList.add('breaked');
+      velocityY *= -1;
+    }
+  }
+}
+
+
 let velocityX = -2;
 let velocityY = -2;
 let ballX = 400;
@@ -12,7 +32,7 @@ function moveBall() {
 
   ballX += velocityX;
   ballY += velocityY;
-
+  
   if (ballX < 0 || ballX > 720) {
     velocityX *= -1;
   }
@@ -32,11 +52,17 @@ function moveBall() {
     alert("Game Over");
     return;
   }
-  
+
   ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
 
+  bricksBreakid()
   requestAnimationFrame(moveBall);
 }
+
+
+
+
+
 
 // function randomVelocities() {
 //     if (velocityX > 0) {

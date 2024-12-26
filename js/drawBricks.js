@@ -23,6 +23,7 @@ function createBricks(brickColor) {
     let brickShadow = document.createElement("div");
 
     brick.classList.add(brickColor)
+    brick.className=`break_id ${index + n}`
     brickFace.classList.add(brickColor)
     brickShadow.classList.add('brick-shadow')
     brickFace.classList.add('brick-face')
@@ -35,4 +36,3 @@ function createBricks(brickColor) {
   }
 }
 
-drawBricks();

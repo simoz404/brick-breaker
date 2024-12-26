@@ -92,5 +92,3 @@ function postion(ballRect, rec) {
   let direction = hitPosition / (rec.width / 2);
   return direction
 }
-
-moveBall()

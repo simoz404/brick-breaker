@@ -36,4 +36,3 @@ function createBricks(brickColor, n) {
   }
 }
 
-drawBricks();

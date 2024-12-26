@@ -2,6 +2,7 @@ let ball = document.getElementById("ball");
 
 let bricks = document.getElementsByClassName("brick")
 
+let isPause = false
 function bricksBreakid() {
   
   for (let brick of bricks) {
@@ -19,8 +20,8 @@ function bricksBreakid() {
 }
 
 
-let velocityX = -2;
-let velocityY = -2;
+let velocityX = -3;
+let velocityY = -3;
 let ballX = 400;
 let ballY = 500;
 let isrecersived = false;
@@ -46,15 +47,15 @@ function moveBall() {
     }, 1000);
   }
 
-  if (ballY > 600) {
-    alert("Game Over");
-    return;
-  }
-
+  
   ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
-
+  
   bricksBreakid()
+  if (ballY > 600) {
+    gameOver()
+  } else if (!isPause) {
   requestAnimationFrame(moveBall);
+  }
 }
 
 
@@ -80,4 +81,4 @@ function moveBall() {
 //     }
 // }
 
-requestAnimationFrame(moveBall);
+

@@ -15,6 +15,7 @@ let bally = 500;
 let div = document.querySelector("#game-area")
 
 var sec = 0
+let scorep = 0
 function bricksBreakid() {
     for (let brick of bricks) {
     let recBrick = brick.getBoundingClientRect();
@@ -24,7 +25,9 @@ function bricksBreakid() {
       recBall.bottom >= recBrick.top && 
       recBall.top <= recBrick.bottom) ) {
       brick.classList.add('breaked');
-          velocityY *= -1
+      scorep++
+      score()
+        velocityY *= -1
     }
   }
   
@@ -123,4 +126,9 @@ function timer() {
 
 function stop() {
     clearInterval(t)
+}
+
+function score() {
+    let scorediv = document.getElementById("score")
+    scorediv.innerHTML = 'Score: '+ scorep
 }

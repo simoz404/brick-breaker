@@ -48,6 +48,7 @@ start();
 function play() {
 let play = document.getElementById('play')
 play.addEventListener('click', ()=> {
+    timer()
     popup.classList.remove("open-popup")
     ballX = 400;
     ballY = 500;
@@ -60,10 +61,16 @@ play.addEventListener('click', ()=> {
 }
 
 function gameOver() {
+    stop()
+    let timer = document.getElementById('timer')
+    console.log(timer.textContent);
+    
     pop.innerHTML = ''
     pop.classList.add("open-popup");
     let img = document.createElement('img');
     img.src = './styles/logo.jpg';
+    let t = document.createElement('h3')
+    t.textContent = timer.textContent
     let btn = document.createElement('button');
     btn.textContent = 'Restart';
     btn.className = 'restart'
@@ -74,8 +81,10 @@ function gameOver() {
     h2.textContent = 'GAME OVER';
     pop.appendChild(img)
     pop.appendChild(h2)
+    pop.appendChild(t)
     pop.appendChild(btn);
     pop.appendChild(btn2)
+    clearInterval(t)
     quit()
     restart()
 }
@@ -85,6 +94,7 @@ function resume() {
     btnresume.addEventListener('click', ()=> {
         popup.classList.remove("open-popup")
         isPause = false;
+        
         requestAnimationFrame(moveBall);
     })
 }
@@ -92,15 +102,11 @@ function resume() {
 function restart() {
     let btnrestart = document.getElementsByClassName('restart')
     btnrestart[0].addEventListener('click', ()=> {
-        brickss.innerHTML = ''
         popup.classList.remove("open-popup");
-        ballX = 400;
-        ballY = 500;
-        velocityX = -3;
-        velocityY = -3;
+        brickss.innerHTML = ''
         isPause = false;
         drawBricks();
-        requestAnimationFrame(moveBall);
+        // requestAnimationFrame(moveBall);
     })
 }
 

@@ -4,6 +4,8 @@ let ball = document.getElementById("ball");
 
 let bricks = document.getElementsByClassName("brick")
 
+let isPause = false
+
 let velocityX = -5;
 let velocityY = 5;
 
@@ -12,10 +14,9 @@ let ballx = 400;
 let bally = 500;
 let div = document.querySelector("#game-area")
 
-
+var sec = 0
 function bricksBreakid() {
-
-  for (let brick of bricks) {
+    for (let brick of bricks) {
     let recBrick = brick.getBoundingClientRect();
     let recBall = ball.getBoundingClientRect();
     if ( !brick.classList.contains('breaked') && (recBall.right >= recBrick.left && 
@@ -25,7 +26,6 @@ function bricksBreakid() {
       brick.classList.add('breaked');
           velocityY *= -1
     }
-   
   }
   
 }
@@ -48,7 +48,9 @@ function moveBall() {
         velocityY *= -1;
     }
     else if (ballRect.y + ballRect.height >= game.height) {
-        return alert("game over");
+        gameOver()
+        
+        return
     }
 
     if (detecteted(ballRect, rec)) {
@@ -72,8 +74,9 @@ function moveBall() {
     
     ball.style.transform = `translate(${ballx}px, ${bally}px)`
     bricksBreakid()
+    if (!isPause) {
     requestAnimationFrame(moveBall);
-
+    }
 }
 
 
@@ -91,4 +94,33 @@ function postion(ballRect, rec) {
   let hitPosition = ballCenter - paddleCenter;
   let direction = hitPosition / (rec.width / 2);
   return direction
+}
+var t;
+function timer() {
+    let timer = document.getElementById('timer')
+    var sec = 1
+    var min = 0
+    let s = '0'
+    let m = '0'
+    t = setInterval(() => {
+        if (!isPause) {
+        timer.innerHTML = 'Timer: '+m+min+':'+s+sec;
+        if (sec >= 9) {
+            s = ''
+        } 
+        if (min >= 9) {
+            m = ''
+        }
+        if (sec == 60) {
+            s = '0'
+            sec = -1
+            min++
+        }
+        sec++
+    }
+    }, 1000)
+}
+
+function stop() {
+    clearInterval(t)
 }

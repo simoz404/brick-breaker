@@ -21,4 +21,4 @@ function moveBall() {
     requestAnimationFrame(moveBall);
 }
 
-// requestAnimationFrame(moveBall)
+requestAnimationFrame(moveBall)

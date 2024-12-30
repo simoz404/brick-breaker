@@ -77,6 +77,10 @@
     border-radius: 3px;
     overflow: hidden;
   }
+
+  .brick.breaked {
+    opacity: calc(0);
+  }
   
   .red { background-color: var(--color-red); }
   .purple { background-color: var(--color-purple); }
@@ -165,3 +169,53 @@
     border-radius: 50%;
     pointer-events: none;
   }
+
+  .popup {
+    width: 400px;
+    background: #fff;
+    border-radius: 20px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0.01);
+    text-align: center;
+    padding: 0 30px 30px;
+    color: #333;
+    z-index: 10;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.4s;
+}
+
+.open-popup {
+  visibility: visible;
+  top: 50%;
+  transform: translate(-50%, -50%) scale(1);
+
+}
+
+.popup img {
+  width: 100px;
+  margin-top: -50px;
+  border-radius: 20%;
+  box-shadow: 0 2px 5px;
+}
+
+.popup h2 {
+  font-size: 38px;
+  font-weight:  500;
+  margin: 30px 0 10px;
+}
+
+.popup button {
+  width: 100%;
+  margin-top: 20px;
+  padding: 10px 0;
+  background: var(--color-blue);
+  color: #fff;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}

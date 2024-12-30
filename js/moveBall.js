@@ -32,8 +32,8 @@ function bricksBreakid(ballRect) {
       let angleEffect = hitPosition * Math.PI / 6;
       let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
 
-      velocityX = newSpeed * Math.sin(angleEffect);
-      velocityY = Math.abs(newSpeed * Math.cos(angleEffect));
+      velocityX = 6 * Math.sin(angleEffect);
+      velocityY = Math.abs(6 * Math.cos(angleEffect));
     }
   }
 }
@@ -73,8 +73,8 @@ function moveBall() {
     let angleEffect = hitPosition * Math.PI / 6;
     let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
 
-    velocityX = newSpeed * Math.sin(angleEffect);
-    velocityY = -Math.abs(newSpeed * Math.cos(angleEffect));
+    velocityX = (6 * Math.sin(angleEffect));
+    velocityY = -Math.abs(6 * Math.cos(angleEffect));
 
   }
 
@@ -95,7 +95,7 @@ function detecteted(ballRect, rec) {
 }
 function topdetected(ballRect, brick) {
    
-  return  detecteted(ballRect,brick) &&ballRect.right >= brick.left &&
+  return   ballRect.right >= brick.left &&
     ballRect.left <= brick.right &&
     ballRect.bottom >= brick.top &&
     ballRect.top <= brick.bottom

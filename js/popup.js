@@ -109,8 +109,13 @@ function restart() {
         scored.innerHTML = 'Score: 0'
         brickss.innerHTML = ''
         isPause = false;
-        drawBricks();
-        // requestAnimationFrame(moveBall);
+        ballX = 400;
+    ballY = 500;
+    velocityX = -3;
+    velocityY = -3;
+    timer()
+    drawBricks();
+    requestAnimationFrame(moveBall);
     })
 }
 

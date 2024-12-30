@@ -1,33 +1,41 @@
 
 
 let ball = document.getElementById("ball");
-
 let bricks = document.getElementsByClassName("brick")
+console.log(bricks);
 
 let isPause = false
-
-let velocityX = -5;
-let velocityY = 5;
-
-
-let ballx = 400;
-let bally = 500;
+let velocityX = -1;
+let velocityY = 2;
+let ballX = 400;
+let ballY = 500;
+let isrecersived = false;
+let scorep =0
 let div = document.querySelector("#game-area")
+let currentBrickIndex = 0;
+function bricksBreakid(ballRect) {
+  for (let brick of bricks) {
+    let brickRect = brick.getBoundingClientRect();
 
-var sec = 0
-let scorep = 0
-function bricksBreakid() {
-    for (let brick of bricks) {
-    let recBrick = brick.getBoundingClientRect();
-    let recBall = ball.getBoundingClientRect();
-    if ( !brick.classList.contains('breaked') && (recBall.right >= recBrick.left && 
-      recBall.left <= recBrick.right &&
-      recBall.bottom >= recBrick.top && 
-      recBall.top <= recBrick.bottom) ) {
+    if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
+      let hitPosition = postion(ballRect, brickRect);
+      console.log(hitPosition);
+      
+      if (hitPosition < -0.5) {
+         velocityY *= -1;
+      } else if (hitPosition > 0.5) {
+         velocityY *= 1;
+      } else {
+        velocityX *= 0.5;
+      }
       brick.classList.add('breaked');
       scorep++
       score()
-        velocityY *= -1
+      let angleEffect = hitPosition * Math.PI / 6;
+      let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+      velocityX = newSpeed * Math.sin(angleEffect);
+      velocityY = Math.abs(newSpeed * Math.cos(angleEffect));
     }
   }
   
@@ -35,62 +43,65 @@ function bricksBreakid() {
 
 
 function moveBall() {
-    ballx += velocityX;
-    bally += velocityY;
-    let ball = document.getElementById('ball')
-    let ballRect = ball.getBoundingClientRect()
+  ballX += velocityX;
+  ballY += velocityY;
+  let ballRect = ball.getBoundingClientRect()
+  let paddle = document.getElementById('paddle')
+  let rec = paddle.getBoundingClientRect()
+  let game = div.getBoundingClientRect()
+  if (ballX <= 0 || ballX > game.width - ballRect.width) {
+    velocityX *= -1;
+  } 
+   if (ballY < 0) {
+    velocityY *= -1;
+  }
 
-    let paddle = document.getElementById('paddle')
-    let rec = paddle.getBoundingClientRect()
-    let game = div.getBoundingClientRect()
-
-
-    if (ballx <= 0 || ballx > game.width - ballRect.width) {
-        velocityX *= -1;
-    } else if (bally < 0) {
-        velocityY *= -1;
+  bricksBreakid(ballRect)
+  
+  if (detecteted(ballRect, rec)) {
+    isrecersived = false
+    let hitPosition = postion(ballRect, rec);
+    console.log(hitPosition);
+    if (hitPosition < -0.3) {
+      velocityX *= -1
     }
-    else if (ballRect.y + ballRect.height >= game.height) {
-        gameOver()
-        
-        return
+    else if (hitPosition > 0.3) {
+      velocityX *= 1
+    }
+    else {
+      velocityX *= 0.5;
     }
 
-    if (detecteted(ballRect, rec)) {
-        let hitPosition = postion(ballRect, rec); 
+    let angleEffect = hitPosition * Math.PI / 6;
+    let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
 
-        if (hitPosition < -0.3) {
-            velocityX *= -1 
-        } 
-        else if (hitPosition > 0.3) {
-            velocityX *= 1 
-        } 
-        else {
-            velocityX *= 0.5; 
-        }
-        let angleEffect = hitPosition * Math.PI / 6;
-        let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-    
-        velocityX = newSpeed * Math.sin(angleEffect); 
-        velocityY = -Math.abs(newSpeed * Math.cos(angleEffect));
-    }
-    
-    ball.style.transform = `translate(${ballx}px, ${bally}px)`
-    bricksBreakid()
-    if (!isPause) {
+    velocityX = newSpeed * Math.sin(angleEffect);
+    velocityY = -Math.abs(newSpeed * Math.cos(angleEffect));
+
+  }
+
+  ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
+
+  // bricksBreakid()
+  if (ballY > 600) {
+    gameOver()
+  } else if (!isPause) {
     requestAnimationFrame(moveBall);
-    }
+  }
 }
-
-
-
 function detecteted(ballRect, rec) {
-    return ballRect.x + ballRect.width > rec.x &&
-        ballRect.x < rec.x + rec.width &&
-        ballRect.y + ballRect.height > rec.y && 
-        ballRect.y < rec.y + rec.height
+  return ballRect.x + ballRect.width >= rec.x &&
+    ballRect.x <= rec.x + rec.width &&
+    ballRect.y + ballRect.height > rec.y &&
+    ballRect.y < rec.y + rec.height
 }
-
+function topdetected(ballRect, brick) {
+   
+  return  detecteted(ballRect,brick) &&ballRect.right >= brick.left &&
+    ballRect.left <= brick.right &&
+    ballRect.bottom >= brick.top &&
+    ballRect.top <= brick.bottom
+}
 function postion(ballRect, rec) {
   let ballCenter = ballRect.x + ballRect.width / 2; // مركز الكرة
   let paddleCenter = rec.x + rec.width / 2;         // مركز المضرب
@@ -98,11 +109,12 @@ function postion(ballRect, rec) {
   let direction = hitPosition / (rec.width / 2);
   return direction
 }
+
 var t;
 function timer() {
+  var sec = 1
+  var min = 0
     let timer = document.getElementById('timer')
-    var sec = 1
-    var min = 0
     let s = '0'
     let m = '0'
     t = setInterval(() => {

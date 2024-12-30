@@ -1,6 +1,7 @@
 let bricksContainer = document.getElementById("bricks-container");
 
 function drawBricks() {
+scorep =0
   const colorList = [
     "red",
     "purple",
@@ -10,7 +11,6 @@ function drawBricks() {
     "yellow",
     "cyan",
   ];
-
   for (let index = 0; index < colorList.length; index++) {
     createBricks(colorList[index]);
   }
@@ -23,7 +23,6 @@ function createBricks(brickColor) {
     let brickShadow = document.createElement("div");
 
     brick.classList.add(brickColor)
-    brick.className=`break_id ${index}`
     brickFace.classList.add(brickColor)
     brickShadow.classList.add('brick-shadow')
     brickFace.classList.add('brick-face')

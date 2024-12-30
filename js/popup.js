@@ -1,12 +1,16 @@
 let pop = document.querySelector('.popup');
+let shadowBackground = document.querySelector('.shadow-background')
+console.log(shadowBackground);
+
 let btnpause = document.getElementById('pause')
 let brickss = document.getElementById('bricks-container')
 let timerd = document.getElementById('timer')
 let scored = document.getElementById('score')
 
-btnpause.addEventListener('click', ()=> {
+btnpause.addEventListener('click', () => {
     isPause = true
     pop.innerHTML = ''
+    shadowBackground.style.display = 'block'
     pause()
     pop.classList.add("open-popup");
 })
@@ -38,6 +42,7 @@ function start() {
     let btn = document.createElement('button');
     btn.textContent = 'Play';
     btn.id = 'play'
+    shadowBackground.style.display = 'block'
     pop.appendChild(img)
     pop.appendChild(btn);
     pop.classList.add("open-popup");
@@ -48,23 +53,25 @@ function start() {
 
 start();
 function play() {
-let play = document.getElementById('play')
-play.addEventListener('click', ()=> {
-    timer()
-    popup.classList.remove("open-popup")
-    ballX = 400;
-    ballY = 500;
-    velocityX = -3;
-    velocityY = -3;
-    isPause = false;
-    drawBricks();
-    requestAnimationFrame(moveBall);
-})
+    let play = document.getElementById('play')
+    play.addEventListener('click', () => {
+        timer()
+        popup.classList.remove("open-popup")
+        ballX = 400;
+        ballY = 500;
+        velocityX = -3;
+        velocityY = -3;
+        shadowBackground.style.display = 'none'
+        isPause = false;
+        drawBricks();
+        requestAnimationFrame(moveBall);
+    })
 }
 
 function gameOver() {
     stop()
     pop.innerHTML = ''
+    shadowBackground.style.display = 'block'
     pop.classList.add("open-popup");
     let img = document.createElement('img');
     img.src = './styles/logo.jpg';
@@ -93,37 +100,40 @@ function gameOver() {
 
 function resume() {
     let btnresume = document.getElementById('resume')
-    btnresume.addEventListener('click', ()=> {
+    btnresume.addEventListener('click', () => {
         popup.classList.remove("open-popup")
+        shadowBackground.style.display = 'none'
         isPause = false;
-        
+
         requestAnimationFrame(moveBall);
     })
 }
 
 function restart() {
     let btnrestart = document.getElementsByClassName('restart')
-    btnrestart[0].addEventListener('click', ()=> {
+    btnrestart[0].addEventListener('click', () => {
         popup.classList.remove("open-popup");
         timerd.innerHTML = 'Timer: 00:00'
         scored.innerHTML = 'Score: 0'
         brickss.innerHTML = ''
+        shadowBackground.style.display = 'none'
         isPause = false;
         ballX = 400;
-    ballY = 500;
-    velocityX = -3;
-    velocityY = -3;
-    timer()
-    drawBricks();
-    requestAnimationFrame(moveBall);
+        ballY = 500;
+        velocityX = -3;
+        velocityY = -3;
+        timer()
+        drawBricks();
+        requestAnimationFrame(moveBall);
     })
 }
 
 function quit() {
     let btmquit = document.getElementById('quit')
-    btmquit.addEventListener('click', ()=> {
+    btmquit.addEventListener('click', () => {
         popup.classList.remove("open-popup")
         brickss.innerHTML = ''
+         shadowBackground.style.display = 'none'
         start()
     })
 }

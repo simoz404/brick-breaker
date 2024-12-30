@@ -6,10 +6,10 @@ scorep =0
     "red",
     "purple",
     "green",
-    "blue",
-    "pink",
-    "yellow",
-    "cyan",
+  //  "blue",
+    // "pink",
+    // "yellow",
+    // "cyan",
   ];
   for (let index = 0; index < colorList.length; index++) {
     createBricks(colorList[index]);
@@ -17,7 +17,7 @@ scorep =0
 }
 
 function createBricks(brickColor) {
-  for (let index = 0; index < 10; index++) {
+  for (let index = 0; index < 8; index++) {
     let brick = document.createElement("div");
     let brickFace = document.createElement("div");
     let brickShadow = document.createElement("div");

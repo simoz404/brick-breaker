@@ -52,7 +52,7 @@ function moveBall() {
   if (ballX <= 0 || ballX > game.width - ballRect.width) {
     velocityX *= -1;
   } 
-   if (ballY < 0) {
+   if (ballY <= 0) {
     velocityY *= -1;
   }
 

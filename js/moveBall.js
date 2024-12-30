@@ -1,3 +1,5 @@
+
+
 let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
 console.log(bricks);
@@ -8,6 +10,7 @@ let velocityY = 2;
 let ballX = 400;
 let ballY = 500;
 let isrecersived = false;
+let scorep =0
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
@@ -19,16 +22,15 @@ function bricksBreakid(ballRect) {
       console.log(hitPosition);
       
       if (hitPosition < -0.5) {
-        brick.classList.add('breaked');
          velocityY *= -1;
       } else if (hitPosition > 0.5) {
-        brick.classList.add('breaked');
          velocityY *= 1;
       } else {
-        brick.classList.add('breaked');
         velocityX *= 0.5;
       }
-
+      brick.classList.add('breaked');
+      scorep++
+      score()
       let angleEffect = hitPosition * Math.PI / 6;
       let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
 
@@ -36,6 +38,7 @@ function bricksBreakid(ballRect) {
       velocityY = Math.abs(6 * Math.cos(angleEffect));
     }
   }
+  
 }
 
 
@@ -52,7 +55,6 @@ function moveBall() {
    if (ballY < 0) {
     velocityY *= -1;
   }
-
 
   bricksBreakid(ballRect)
   
@@ -108,22 +110,37 @@ function postion(ballRect, rec) {
   return direction
 }
 
-// function randomVelocities() {
-//     if (velocityX > 0) {
-//         velocityX += Math.random();
-//         velocityX = Math.min(Math.max(velocityX, 2), 3);
-//     } else {
-//         velocityX -= Math.random();
-//         velocityX = Math.max(Math.min(velocityX, -2), -3);
-//     }
+var t;
+function timer() {
+  var sec = 1
+  var min = 0
+    let timer = document.getElementById('timer')
+    let s = '0'
+    let m = '0'
+    t = setInterval(() => {
+        if (!isPause) {
+        timer.innerHTML = 'Timer: '+m+min+':'+s+sec;
+        if (sec >= 9) {
+            s = ''
+        } 
+        if (min >= 9) {
+            m = ''
+        }
+        if (sec == 60) {
+            s = '0'
+            sec = -1
+            min++
+        }
+        sec++
+    }
+    }, 1000)
+}
 
-//     if (velocityY > 0) {
-//         velocityY += Math.random();
-//         velocityY = Math.min(Math.max(velocityY, 2), 3);
-//     } else {
-//         velocityY -= Math.random();
-//         velocityY = Math.max(Math.min(velocityY, -2), -3);
-//     }
-// }
+function stop() {
+    clearInterval(t)
+}
 
-
+function score() {
+    let scorediv = document.getElementById("score")
+    scorediv.innerHTML = 'Score: '+ scorep
+}

@@ -81,6 +81,16 @@
   .brick.breaked {
     opacity: calc(0);
   }
+
+  .shadow-background {
+    background: transparent;
+    backdrop-filter: blur(2px);
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    z-index: 2;
+    display: none;
+  }
   
   .red { background-color: var(--color-red); }
   .purple { background-color: var(--color-purple); }

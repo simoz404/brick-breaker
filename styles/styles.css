@@ -229,3 +229,18 @@
   cursor: pointer;
   box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
 }
+
+#pause {
+  width: 40%;
+  height: 37px;
+  /* margin-top: 20px; */
+  /* padding: 14px 0; */
+  background: var(--color-blue);
+  color: #fff;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}

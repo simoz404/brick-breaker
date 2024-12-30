@@ -9,7 +9,7 @@ scorep =0
   //  "blue",
     // "pink",
     // "yellow",
-    // "cyan",
+    "cyan",
   ];
   for (let index = 0; index < colorList.length; index++) {
     createBricks(colorList[index]);

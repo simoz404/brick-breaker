@@ -19,16 +19,16 @@ function pause() {
     let h2 = document.createElement('h2');
     h2.textContent = 'Paused';
     let btn = document.createElement('button');
-    btn.textContent = 'Resume';
+    btn.textContent = 'continue';
     btn.id = 'resume'
     let btn2 = document.createElement('button');
-    btn2.textContent = 'Quit';
-    btn2.id = 'quit'
+    btn2.textContent = 'Restart';
+    btn2.className = 'restart'
     pop.appendChild(img)
     pop.appendChild(h2);
     pop.appendChild(btn);
     pop.appendChild(btn2);
-    quit()
+    restart()
     resume()
 }
 
@@ -55,8 +55,8 @@ function play() {
     play.addEventListener('click', () => {
         timer()
         popup.classList.remove("open-popup")
-        ballX = 500;
-        ballY = 400;
+        ballX = 300;
+        ballY = 520;
         velocityX = -3;
         velocityY = -3;
         shadowBackground.style.display = 'none'
@@ -116,10 +116,12 @@ function restart() {
         brickss.innerHTML = ''
         shadowBackground.style.display = 'none'
         isPause = false;
-        ballX = 400;
-        ballY = 500;
+        ballX = 300;
+        ballY = 520;
         velocityX = -3;
         velocityY = -3;
+        paddlePosition = 235
+        stop()
         timer()
         drawBricks();
         requestAnimationFrame(moveBall);

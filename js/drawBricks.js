@@ -1,6 +1,6 @@
 let bricksContainer = document.getElementById("bricks-container");
 function drawBricks() {
-scorep =0
+scorep = 0
   const colorList = [
     "red",
     "purple",
@@ -16,7 +16,7 @@ scorep =0
 }
 
 function createBricks(brickColor) {
-  for (let index = 0; index < 8; index++) {
+  for (let index = 0; index < 7 ; index++) {
     let brick = document.createElement("div");
     let brickFace = document.createElement("div");
     let brickShadow = document.createElement("div");

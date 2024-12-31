@@ -30,9 +30,9 @@ function movePaddle() {
   let game = div.getBoundingClientRect()
   let paddleRec = paddle.getBoundingClientRect()
 
-  if (isMovingLeft && paddlePosition > 0 && !isPause) {
+  if (isMovingLeft && paddlePosition > 0 && !gameState.isPaused) {
     paddlePosition -= moveSpeed;
-  } else if (isMovingRight && paddlePosition < game.width - paddleRec.width && !isPause) {
+  } else if (isMovingRight && paddlePosition < game.width - paddleRec.width && !gameState.isPaused) {
     paddlePosition += moveSpeed;
   }
 

@@ -1,13 +1,19 @@
 let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
-let isPause = false
-let velocityX = -1;
-let velocityY = 2;
-let ballX = 300;
-let ballY = 520;
-let scorep = 0;
-let livesNum = 3
 let div = document.querySelector("#game-area")
+
+let scorep = 0;
+let speed = 5
+
+
+const gameState = {
+  score: 0,
+  isPaused: false,
+  isGameOver: false,
+  ball: {x: 300, y: 520, velocityX: -2, velocityY: 3}
+};
+
+
 let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
@@ -15,46 +21,45 @@ function bricksBreakid(ballRect) {
     if (detecteted(ballRect, brickRect) && !brick.classList.contains('breaked')) {
       let hitPosition = postion(ballRect, brickRect);
       if (hitPosition < -0.5) {
-        velocityY *= -1;
+        gameState.ball.velocityY *= -1;
       } else if (hitPosition > 0.5) {
-        velocityY *= 1;
+        gameState.ball.velocityY *= 1;
       } else {
-        velocityY *= 0.5;
+        gameState.ball.velocityY *= 0.5;
       }
       brick.classList.add('breaked');
-      scorep++
+      gameState.score++;
       score()
       let angleEffect = hitPosition * Math.PI / 6;
-      velocityX = 3 * Math.sin(angleEffect);
+      gameState.ball.velocityX = speed * Math.sin(angleEffect);
 
       if (ballRect.bottom >= brickRect.top && ballRect.top <= brickRect.top) {
-        velocityY = -Math.abs(3 * Math.cos(angleEffect));
+        gameState.ball.velocityY = -Math.abs(speed * Math.cos(angleEffect));
       } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
-        velocityY = Math.abs(3 * Math.cos(angleEffect));
+        gameState.ball.velocityY = Math.abs(speed * Math.cos(angleEffect));
       }
-
     }
   }
 }
 
 
-function moveBall() {stop
-  ballX += velocityX;
-  ballY += velocityY;
+function moveBall() {
+  gameState.ball.x += gameState.ball.velocityX;
+  gameState.ball.y += gameState.ball.velocityY;
   let ballRect = ball.getBoundingClientRect()
   let paddle = document.getElementById('paddle')
   let rec = paddle.getBoundingClientRect()
   let game = div.getBoundingClientRect()
 
-  if (ballX <= 0) {
-    ballX = 0
-    velocityX *= -1;
-  } else if (ballX > game.width - ballRect.width) {
-    ballX = game.width - ballRect.width
-    velocityX *= -1;
+  if (gameState.ball.x <= 0) {
+    gameState.ball.x = 0
+    gameState.ball.velocityX *= -1;
+  } else if (gameState.ball.x > game.width - ballRect.width) {
+    gameState.ball.x = game.width - ballRect.width
+    gameState.ball.velocityX *= -1;
   }
-  if (ballY <= 0) {
-    velocityY *= -1;
+  if (gameState.ball.y <= 0) {
+    gameState.ball.velocityY *= -1;
   }
 
   bricksBreakid(ballRect)
@@ -64,37 +69,26 @@ function moveBall() {stop
     let hitPosition = postion(ballRect, rec);
     console.log(hitPosition);
     if (hitPosition < -0.3) {
-      velocityX *= -1
+      gameState.ball.velocityX *= -1
     }
     else if (hitPosition > 0.3) {
-      velocityX *= 1
+      gameState.ball.velocityX *= 1
     }
     else {
-      velocityX *= 0.5;
+      gameState.ball.velocityX *= 0.5;
     }
 
     let angleEffect = hitPosition * Math.PI / 6;
-    velocityX = (3 * Math.sin(angleEffect));
-    velocityY = -Math.abs(3 * Math.cos(angleEffect));
+    gameState.ball.velocityX = (speed * Math.sin(angleEffect));
+    gameState.ball.velocityY = -Math.abs(speed * Math.cos(angleEffect));
 
   }
 
-  ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
-  console.log(lives);
-  
-  // bricksBreakid()
-  if (ballY > 600) {
-    livesNum--
-    ballX = 300;
-    ballY = 520;
-    velocityX = -3;
-    velocityY = -3;
-    paddlePosition = 235;
-    lives()
-    requestAnimationFrame(moveBall);
-  } else if (livesNum <= 0) {
+  ball.style.transform = `translate(${gameState.ball.x}px, ${gameState.ball.y}px)`;
+
+  if (gameState.ball.y > 600) {
     gameOver()
-  } else if (!isPause) {
+  } else if (!gameState.isPaused) {
     requestAnimationFrame(moveBall);
   }
 }
@@ -126,7 +120,7 @@ function timer() {
   let s = '0'
   let m = '0'
   t = setInterval(() => {
-    if (!isPause) {
+    if (!gameState.isPaused) {
       timer.innerHTML = 'Timer: ' + m + min + ':' + s + sec;
       if (sec >= 9) {
         s = ''
@@ -151,9 +145,4 @@ function stop() {
 function score() {
   let scorediv = document.getElementById("score")
   scorediv.innerHTML = 'Score: ' + scorep
-}
-
-function lives() {
-  let scorediv = document.getElementById("lives")
-  scorediv.innerHTML = 'Lives: ' + livesNum
 }

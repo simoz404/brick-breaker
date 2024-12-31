@@ -1,13 +1,13 @@
 let pop = document.querySelector('.popup');
 let shadowBackground = document.querySelector('.shadow-background')
-let btnpause = document.getElementById('pause')
+let btnPause = document.getElementById('pause')
 let brickss = document.getElementById('bricks-container')
 let timerd = document.getElementById('timer')
 let scored = document.getElementById('score')
 let livesd = document.getElementById('lives')
 
-btnpause.addEventListener('click', () => {
-    isPause = true
+btnPause.addEventListener('click', () => {
+    gameState.isPaused = true
     pop.innerHTML = ''
     shadowBackground.style.display = 'block'
     pause()
@@ -56,12 +56,12 @@ function play() {
     play.addEventListener('click', () => {
         timer()
         popup.classList.remove("open-popup")
-        ballX = 300;
-        ballY = 520;
-        velocityX = -3;
-        velocityY = -3;
+        gameState.ball.x = 300;
+        gameState.ball.x = 520;
+        gameState.ball.velocityX = -3;
+        gameState.ball.velocityY = -3;
         shadowBackground.style.display = 'none'
-        isPause = false;
+        gameState.isPaused = false;
         drawBricks();
         requestAnimationFrame(moveBall);
     })
@@ -102,7 +102,7 @@ function resume() {
     btnresume.addEventListener('click', () => {
         popup.classList.remove("open-popup")
         shadowBackground.style.display = 'none'
-        isPause = false;
+        gameState.isPaused = false;
 
         requestAnimationFrame(moveBall);
     })
@@ -118,11 +118,11 @@ function restart() {
         brickss.innerHTML = ''
         shadowBackground.style.display = 'none'
         livesNum = 3
-        isPause = false;
-        ballX = 300;
-        ballY = 520;
-        velocityX = -3;
-        velocityY = -3;
+        gameState.isPaused = false;
+        gameState.ball.x = 300;
+        gameState.ball.x = 520;
+        gameState.ball.velocityX = -3;
+        gameState.ball.velocityY = -3;
         paddlePosition = 235
         stop()
         timer()

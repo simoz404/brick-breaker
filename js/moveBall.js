@@ -34,7 +34,7 @@ function bricksBreakid(ballRect) {
       }
     }
   }
-}
+ 
 
 
 function moveBall() {

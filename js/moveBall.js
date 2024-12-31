@@ -3,8 +3,9 @@ let bricks = document.getElementsByClassName("brick")
 let isPause = false
 let velocityX = -1;
 let velocityY = 2;
-let ballX = 400;
-let ballY = 500;
+let ballX = 360;
+let ballY = 520;
+
 let scorep = 0;
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
@@ -36,6 +37,7 @@ function bricksBreakid(ballRect) {
       } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
         velocityY = Math.abs(3 * Math.cos(angleEffect));
       }
+
     }
   }
 }

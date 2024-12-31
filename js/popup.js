@@ -55,8 +55,8 @@ function play() {
     play.addEventListener('click', () => {
         timer()
         popup.classList.remove("open-popup")
-        ballX = 250;
-        ballY = 15;
+        ballX = 360;
+        ballY = 520;
         velocityX = -3;
         velocityY = -3;
         shadowBackground.style.display = 'none'
@@ -116,8 +116,8 @@ function restart() {
         brickss.innerHTML = ''
         shadowBackground.style.display = 'none'
         isPause = false;
-        ballX = 400;
-        ballY = 500;
+        ballX = 360;
+        ballY = 520;
         velocityX = -3;
         velocityY = -3;
         timer()

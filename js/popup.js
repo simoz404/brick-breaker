@@ -123,6 +123,7 @@ function restart() {
         ballY = 520;
         velocityX = -3;
         velocityY = -3;
+        paddlePosition = 235
         stop()
         timer()
         drawBricks();

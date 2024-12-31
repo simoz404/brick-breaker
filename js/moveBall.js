@@ -12,7 +12,7 @@ let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
-    if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
+    if (detecteted(ballRect, brickRect) && !brick.classList.contains('breaked')) {
       let hitPosition = postion(ballRect, brickRect);
       if (hitPosition < -0.5) {
         velocityY *= -1;

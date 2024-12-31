@@ -6,8 +6,8 @@ scorep =0
     "red",
     "purple",
     "green",
-  //  "blue",
-    // "pink",
+   "blue",
+    "pink",
     // "yellow",
     // "cyan",
   ];

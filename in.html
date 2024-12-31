@@ -1,0 +1,362 @@
+<template>
+    <main>
+        <div class="container">
+            <div class="hero__title">
+                <h1>{{ $t("header.heroTitle") }}</h1>
+                <h1>{{ $t("header.heroTitle2") }}</h1>
+            </div>
+
+            <div class="container">
+                <form action="">
+                    <div class="input location">
+                        <label for="">{{ $t("form.locationLabel") }}</label>
+                        <input type="text" :placeholder="$t('form.locationPlaceholder')" id="location"
+                            v-model="location" class="input" @click="toggleDropdown" />
+                        <!-- Dropdown -->
+                        <div v-show="dropdownVisible" id="dropdown" ref="dropdown" class="dropdown">
+                            <div class="regions">
+                                <h4>Regions</h4>
+                                <div class="inline-regions">
+                                    <button v-for="region in regions" :key="region"
+                                        :class="['region', { active: activeRegion === region }]"
+                                        @click="setActiveRegion(region)">
+                                        {{ region }}
+                                    </button>
+                                </div>
+                            </div>
+                            <h4>Cities</h4>
+                            <div class="cities">
+                                <div v-for="city in cities[activeRegion]" :key="city" class="city"
+                                    @click="selectCity(city)">
+                                    {{ city }}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="card">/
+                        <hr class="x__line" />
+                        <div class="input check-in">
+                            <label for="">{{ $t("form.checkInLabel") }}</label>
+                            <input type="text" :placeholder="$t('form.checkInPlaceholder')" />
+                        </div>
+                        <hr class="x__line" />
+                        <div class="input check-out">
+                            <label for="">{{ $t("form.checkOutLabel") }}</label>
+                            <input type="text" :placeholder="$t('form.checkOutPlaceholder')" />
+                        </div>
+                        <button class="search-button">
+                            <Icon name="mdi:search" class="search-icon" />
+                            {{ $t("form.searchButton") }}
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </main>
+</template>
+
+<script lang="ts" setup>
+    import { ref } from "vue";
+    import { onClickOutside } from "@vueuse/core";
+
+    type Region =| "North America"| "Europe"
+        | "South America"
+        | "Middle East"
+        | "Asia";
+    const regions [
+        "North America",
+        "Europe",
+        "South America",
+        "Middle East",
+        "Asia",
+    ];
+    // Define the type of the cities object
+    const cities = {
+        "North America": [
+            "Atlanta",
+            "St. Louis",
+            "Denver",
+            "Memphis",
+            "Chicago",
+            "Orlando",
+            "San Francisco Bay Area",
+            "Nashville",
+            "Tulsa",
+            "Austin",
+            "Tampa",
+            "Detroit",
+            "Mexico City",
+            "Dallas",
+            "Portland Metro Area",
+            "Seattle",
+            "New York Metro Area",
+            "Twin Cities",
+            "Miami",
+            "Toronto",
+            "Kansas City",
+        ],
+        Europe: ["Paris", "London", "Berlin", "Rome"],
+        "South America": ["São Paulo", "Buenos Aires"],
+        "Middle East": ["Dubai", "Doha"],
+        Asia: ["Tokyo", "Seoul", "Beijing"],
+    } as const;
+
+    // Define the keys of the cities object
+
+    // Reactive states
+    const location = ref("");
+    const checkIn = ref < string | null > (null);
+    const checkOut = ref < string | null > (null);
+    const dropdownVisible = ref < boolean > (false); // Dropdown visibility
+
+    // `activeRegion` must be explicitly typed as `Region`
+    const activeRegion = ref < Region > ("North America");
+
+    // Toggle Dropdown
+    const toggleDropdown = () => {
+        dropdownVisible.value = !dropdownVisible.value;
+    };
+
+    // Select Active Region
+    const setActiveRegion = (region: Region) => {
+        activeRegion.value = region;
+    };
+
+    // Select City
+    const selectCity = (city: string) => {
+        location.value = city;
+        dropdownVisible.value = false; // Close dropdown on selection
+    };
+
+    // Close Dropdown on Outside Click
+    const dropdown = ref < HTMLElement | null > (null);
+    onClickOutside(dropdown, () => {
+        dropdownVisible.value = false;
+    });
+
+    // Search Functionality
+    const search = () => {
+        console.log("Location:", location.value);
+        console.log("Check-in:", checkIn.value);
+        console.log("Check-out:", checkOut.value);
+    };
+</script>
+
+<style scoped>
+    main {
+        grid-column: 1;
+        grid-row: 2;
+        display: grid;
+        justify-items: center;
+        padding: 7vw;
+        /*space betwen header and h1+form*/
+        z-index: 2;
+        position: relative;
+    }
+
+    .container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        row-gap: 3vw;
+        /* space between h1 and search form */
+        width: 100%;
+    }
+
+    .hero__title h1 {
+        font-size: clamp(1.5rem, 2vw + 1rem, 2.5rem);
+        font-weight: 500;
+        color: #fff;
+        text-align: center;
+        line-height: 1.6;
+    }
+
+    form {
+        display: grid;
+        grid-template-columns: 1fr 1fr 1fr auto;
+        gap: 10px;
+        width: 100%;
+        max-width: 800px;
+        background-color: #fff;
+        justify-content: center;
+        padding: 0.7em 1.7em;
+        border-radius: 30px;
+    }
+
+    label {
+        color: gray;
+        font-size: clamp(12px, 5vw + 1rem, 15px);
+        text-align: center;
+    }
+
+    ::placeholder {
+        color: #000;
+        font-weight: 500;
+        font-size: clamp(12px, 5vw + 1rem, 15px);
+    }
+
+    input {
+        margin-top: 0.2em;
+        padding: 0.3em 0;
+        width: 80%;
+        display: block;
+        text-overflow: ellipsis;
+        border: none;
+        outline: none;
+    }
+
+    input:focus {
+        outline: 1px solid rgb(182, 180, 180);
+        border-radius: 10px;
+    }
+
+    input:focus::placeholder {
+        color: gray;
+        font-weight: 500;
+        font-style: italic;
+    }
+
+    .search-button {
+        padding: min(8vw, 10px) 20px;
+        border-radius: 30px;
+        border: none;
+        color: #fff;
+        background-color: #1aac6a;
+        transition: background-color 0.4s ease-in-out;
+        width: 100%;
+        min-width: fit-content;
+        font-weight: 500;
+        font-size: clamp(12px, 5vw + 1rem, 15px);
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .search-button:hover {
+        background-color: #118f56;
+        box-shadow: 5px 5px 20px rgba(29, 218, 54, 0.5);
+    }
+
+    .search-icon {
+        margin-right: 0.2em;
+        font-size: 1.2em;
+        color: #fff;
+        display: inline-block;
+    }
+
+    .x__line {
+        display: none;
+    }
+
+    #dropdown {
+        position: absolute;
+
+        width: 637px;
+        height: 385px;
+        border-radius: 40px;
+        background-color: white;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        padding: 20px;
+        overflow: hidden;
+        z-index: 1;
+    }
+
+    .regions {
+        margin-bottom: 20px;
+    }
+
+    .inline-regions {
+        display: flex;
+        justify-content: space-around;
+        gap: 4px;
+    }
+
+    .region {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 20px;
+        background-color: #e0e0e0;
+        cursor: pointer;
+        transition: all 0.3s ease;
+    }
+
+    .region.active {
+        background-color: #1aac6a;
+        color: white;
+    }
+
+    .region:hover {
+        background-color: #118f56;
+        color: white;
+    }
+
+    h4 {
+        margin-left: 10px;
+        font-weight: 300;
+        color: gray;
+    }
+
+    .cities {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+    }
+
+    .city {
+        padding: 10px 15px;
+        background-color: #f8f8f8;
+        border-radius: 20px;
+        cursor: pointer;
+        flex: 1 1 calc(25% - 10px);
+        text-align: center;
+        transition: all 0.3s ease;
+    }
+
+    .city:hover {
+        background-color: #118f56;
+        color: white;
+    }
+
+    @media (max-width: 500px) {
+        .search-button {
+            padding: min(8vw, 10px) 10px;
+            max-width: 300px;
+            margin-top: 0.3em;
+            align-self: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            gap: 1em;
+        }
+
+        .input {
+            text-align: center;
+        }
+
+        input:focus {
+            outline: 1px solid rgb(182, 180, 180);
+            border-radius: 10px;
+            outline-offset: 1px;
+            text-align: center;
+            margin-left: 2.3em;
+        }
+
+        .x__line {
+            display: block;
+            width: 70%;
+            margin: 0 auto;
+        }
+
+        .container {
+            row-gap: 7vw;
+        }
+
+        main {
+            padding: 10vw;
+        }
+    }
+</style>

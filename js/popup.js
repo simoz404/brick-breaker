@@ -54,11 +54,11 @@ function start() {
 start();
 function play() {
     let play = document.getElementById('play')
-    play.addEventListener('click', () => {
-        timer()
-        popup.classList.remove("open-popup")
-        ballX = 400;
-        ballY = 500;
+    play.addEventListener('click', (e) => {
+         timer()
+        pop.classList.remove("open-popup")
+        ballX = 200;
+        ballY = 15;
         velocityX = -3;
         velocityY = -3;
         shadowBackground.style.display = 'none'

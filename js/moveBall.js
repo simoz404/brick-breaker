@@ -11,9 +11,6 @@ let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
-    if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
-      let hitPosition = postion(ballRect, brickRect);
-      console.log(hitPosition, velocityY, velocityX);
 
       if (hitPosition < -0.5) {
         velocityY *= -1;
@@ -22,7 +19,10 @@ function bricksBreakid(ballRect) {
       } else {
         velocityY *= 0.5;
       }
-      brick.classList.add('breaked');
+      if (brick.className.includes('crack')) {
+        brick.classList.add('breaked');
+      }
+      brick.classList.add('crack');
       scorep++
       score()
       let angleEffect = hitPosition * Math.PI / 6;
@@ -129,7 +129,7 @@ function timer() {
       }
       sec++
     }
-  }, 1000)
+    }, 1000)
 }
 
 function stop() {

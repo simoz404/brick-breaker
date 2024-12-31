@@ -9,16 +9,13 @@ let isrecersived = false;
 let scorep =0
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
+
+
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
-
-
-
-    if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
-      let hitPosition = postion(ballRect, brickRect);
-      console.log(hitPosition, velocityY , velocityX);
-      
+     if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
+      let hitPosition = postion(ballRect, brickRect); 
       if (hitPosition < -0.5) {
         velocityY *= -1;
       } else if (hitPosition > 0.5) {
@@ -85,8 +82,7 @@ function moveBall() {
   }
 
   ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
-
-  // bricksBreakid()
+   // bricksBreakid()
   if (ballY > 600) {
     gameOver()
   } else if (!isPause) {

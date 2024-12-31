@@ -5,7 +5,8 @@ let velocityX = -1;
 let velocityY = 2;
 let ballX = 400;
 let ballY = 500;
-let scorep = 0;
+let isrecersived = false;
+let scorep =0
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
@@ -25,10 +26,7 @@ function bricksBreakid(ballRect) {
       } else {        
         velocityY *= 0.5;
       }
-      if (brick.className.includes('crack')) {
-        brick.classList.add('breaked');
-      }
-      brick.classList.add('crack');
+      brick.classList.add('breaked');
       scorep++
       score()
       let angleEffect = hitPosition * Math.PI / 6;

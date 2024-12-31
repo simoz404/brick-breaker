@@ -55,8 +55,8 @@ function play() {
     play.addEventListener('click', () => {
         timer()
         popup.classList.remove("open-popup")
-        ballX = 250;
-        ballY = 15;
+        ballX = 400;
+        ballY = 500;
         velocityX = -3;
         velocityY = -3;
         shadowBackground.style.display = 'none'

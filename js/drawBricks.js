@@ -16,7 +16,9 @@ scorep = 0
 }
 
 function createBricks(brickColor) {
+  let c=1
   for (let index = 0; index < 7 ; index++) {
+    c++
     let brick = document.createElement("div");
     let brickFace = document.createElement("div");
     let brickShadow = document.createElement("div");
@@ -25,6 +27,7 @@ function createBricks(brickColor) {
     brickFace.classList.add(brickColor)
     brickShadow.classList.add('brick-shadow')
     brickFace.classList.add('brick-face')
+    brick.setAttribute("data-brack",`false`)
     brick.classList.add('brick');
     crack.src = './styles/crack.png'
     brick.appendChild(crack)

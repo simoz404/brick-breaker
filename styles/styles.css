@@ -332,3 +332,12 @@
     font-size: 12px;
   }
 }
+.brick img {
+  display: none;
+  width: 100%;
+  opacity: 0.4;
+}
+.crack img{
+  display: block;
+  opacity:calc(0.5);
+}

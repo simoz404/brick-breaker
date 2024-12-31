@@ -10,30 +10,32 @@ let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
 
 
+let c = 0
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
+    let count = 0
     let brickRect = brick.getBoundingClientRect();
-    if (detecteted(ballRect, brickRect) && !brick.classList.contains('breaked')) {
+
+    if (detecteted(ballRect, brickRect) && !brick.classList.contains("breaked")) {
       let hitPosition = postion(ballRect, brickRect);
       if (hitPosition < -0.5) {
+
         velocityY *= -1;
       } else if (hitPosition > 0.5) {
         velocityY *= 1;
       } else {
         velocityY *= 0.5;
       }
-      brick.classList.add('breaked');
       scorep++
+
       score()
       let angleEffect = hitPosition * Math.PI / 6;
       velocityX = 3 * Math.sin(angleEffect);
-
       if (ballRect.bottom >= brickRect.top && ballRect.top <= brickRect.top) {
         velocityY = -Math.abs(3 * Math.cos(angleEffect));
       } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
         velocityY = Math.abs(3 * Math.cos(angleEffect));
       }
-
     }
   }
 }
@@ -81,7 +83,7 @@ function moveBall() {
   }
 
   ball.style.transform = `translate(${ballX}px, ${ballY}px)`;
-   // bricksBreakid()
+  // bricksBreakid()
   if (ballY > 600) {
     gameOver()
   } else if (!isPause) {
@@ -94,12 +96,7 @@ function detecteted(ballRect, rec) {
     ballRect.y + ballRect.height > rec.y &&
     ballRect.y < rec.y + rec.height
 }
-function topdetected(ballRect, brick) {
-  return ballRect.right >= brick.left &&
-    ballRect.left <= brick.right &&
-    ballRect.bottom >= brick.top &&
-    ballRect.top <= brick.bottom
-}
+
 function postion(ballRect, rec) {
   let ballCenter = ballRect.x + ballRect.width / 2;
   let paddleCenter = rec.x + rec.width / 2;

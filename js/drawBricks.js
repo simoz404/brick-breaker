@@ -5,9 +5,9 @@ scorep =0
   const colorList = [
     "red",
     "purple",
-    "green",
+  //   "green",
   //  "blue",
-    // "pink",
+  //   "pink",
     // "yellow",
     "cyan",
   ];

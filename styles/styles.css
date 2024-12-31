@@ -76,6 +76,7 @@
     margin: 10px;
     border-radius: 3px;
     overflow: hidden;
+    animation: opacityAnimation 0.5s ease;
   }
 
   .brick.breaked {

@@ -1,44 +1,43 @@
-
-
 let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
-console.log(bricks);
-
 let isPause = false
 let velocityX = -1;
 let velocityY = 2;
 let ballX = 400;
 let ballY = 500;
-let isrecersived = false;
-let scorep =0
+let scorep = 0;
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
 
+
+
     if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
       let hitPosition = postion(ballRect, brickRect);
-      console.log(hitPosition);
+      console.log(hitPosition, velocityY , velocityX);
       
       if (hitPosition < -0.5) {
-         velocityY *= -1;
+        velocityY *= -1;
       } else if (hitPosition > 0.5) {
-         velocityY *= 1;
-      } else {
-        velocityX *= 0.5;
+        velocityY *= 1;
+      } else {        
+        velocityY *= 0.5;
       }
       brick.classList.add('breaked');
       scorep++
       score()
       let angleEffect = hitPosition * Math.PI / 6;
-      let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+      velocityX = 3 * Math.sin(angleEffect);
 
-      velocityX = 6 * Math.sin(angleEffect);
-      velocityY = Math.abs(6 * Math.cos(angleEffect));
+      if (ballRect.bottom >= brickRect.top && ballRect.top <= brickRect.top) {
+        velocityY = -Math.abs(3 * Math.cos(angleEffect));
+      } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
+        velocityY = Math.abs(3 * Math.cos(angleEffect));
+      }
     }
   }
-  
 }
 
 
@@ -49,16 +48,22 @@ function moveBall() {
   let paddle = document.getElementById('paddle')
   let rec = paddle.getBoundingClientRect()
   let game = div.getBoundingClientRect()
-  if (ballX <= 0 || ballX > game.width - ballRect.width) {
-    velocityX *= -1;
-  } 
+
+    if (ballX <= 0) {
+      ballX = 0
+      velocityX *= -1;
+    } else if (ballX > game.width - ballRect.width) {
+      ballX = game.width - ballRect.width
+      velocityX *= -1;
+    }
+
    if (ballY <= 0) {
     velocityY *= -1;
   }
 
   bricksBreakid(ballRect)
-  
-  if (detecteted(ballRect, rec)) {
+
+  if (topdetected(ballRect, rec)) {
     isrecersived = false
     let hitPosition = postion(ballRect, rec);
     console.log(hitPosition);
@@ -73,10 +78,8 @@ function moveBall() {
     }
 
     let angleEffect = hitPosition * Math.PI / 6;
-    let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-
-    velocityX = (6 * Math.sin(angleEffect));
-    velocityY = -Math.abs(6 * Math.cos(angleEffect));
+    velocityX = (3 * Math.sin(angleEffect));
+    velocityY = -Math.abs(3 * Math.cos(angleEffect));
 
   }
 
@@ -96,7 +99,6 @@ function detecteted(ballRect, rec) {
     ballRect.y < rec.y + rec.height
 }
 function topdetected(ballRect, brick) {
-   
   return   ballRect.right >= brick.left &&
     ballRect.left <= brick.right &&
     ballRect.bottom >= brick.top &&

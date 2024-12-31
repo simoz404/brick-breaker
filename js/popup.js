@@ -1,7 +1,5 @@
 let pop = document.querySelector('.popup');
 let shadowBackground = document.querySelector('.shadow-background')
-console.log(shadowBackground);
-
 let btnpause = document.getElementById('pause')
 let brickss = document.getElementById('bricks-container')
 let timerd = document.getElementById('timer')
@@ -54,10 +52,10 @@ function start() {
 start();
 function play() {
     let play = document.getElementById('play')
-    play.addEventListener('click', (e) => {
-         timer()
-        pop.classList.remove("open-popup")
-        ballX = 200;
+    play.addEventListener('click', () => {
+        timer()
+        popup.classList.remove("open-popup")
+        ballX = 250;
         ballY = 15;
         velocityX = -3;
         velocityY = -3;

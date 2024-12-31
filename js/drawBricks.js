@@ -5,11 +5,11 @@ scorep =0
   const colorList = [
     "red",
     "purple",
-    "green",
-   "blue",
-    "pink",
+  //   "green",
+  //  "blue",
+  //   "pink",
     // "yellow",
-    // "cyan",
+    "cyan",
   ];
   for (let index = 0; index < colorList.length; index++) {
     createBricks(colorList[index]);

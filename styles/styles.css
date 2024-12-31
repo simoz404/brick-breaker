@@ -76,6 +76,7 @@
     margin: 10px;
     border-radius: 3px;
     overflow: hidden;
+    animation: opacityAnimation 0.5s ease;
   }
 
   .brick.breaked {
@@ -114,8 +115,8 @@
   
   #ball {
     position: absolute;
-    width: 21px;
-    height: 21px;
+    width: 23px;
+    height: 23px;
     background-color: var(--color-white);
     border-radius: 50%;
     box-shadow: 0px 0px 10px var(--color-white);
@@ -220,6 +221,21 @@
   width: 100%;
   margin-top: 20px;
   padding: 10px 0;
+  background: var(--color-blue);
+  color: #fff;
+  border: 0;
+  outline: none;
+  font-size: 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  box-shadow: 0 5px 5px rgba(0, 0, 0, 0.2);
+}
+
+#pause {
+  width: 40%;
+  height: 37px;
+  /* margin-top: 20px; */
+  /* padding: 14px 0; */
   background: var(--color-blue);
   color: #fff;
   border: 0;

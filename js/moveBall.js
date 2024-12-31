@@ -5,43 +5,39 @@ let velocityX = -1;
 let velocityY = 2;
 let ballX = 400;
 let ballY = 500;
-let isrecersived = false;
-let scorep =0
+let scorep = 0;
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
 
-    if (topandBottomdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
+
+
+    if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
       let hitPosition = postion(ballRect, brickRect);
+      console.log(hitPosition, velocityY , velocityX);
       
-   
-      if (hitPosition < -0.3) {
-         velocityX *= -1;
-      } else if (hitPosition > 0.3) {
-          velocityX *= 1;
-      } else {
-        velocityX *= 0.5;
+      if (hitPosition < -0.5) {
+        velocityY *= -1;
+      } else if (hitPosition > 0.5) {
+        velocityY *= 1;
+      } else {        
+        velocityY *= 0.5;
       }
       brick.classList.add('breaked');
-
       scorep++
       score()
       let angleEffect = hitPosition * Math.PI / 6;
-      //let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-
       velocityX = 3 * Math.sin(angleEffect);
-      if(ballRect.bottom>=brickRect.top&& ballRect.top<=brickRect.bottom){
-        velocityY = -3 * Math.cos(angleEffect);
-      }else if (ballRect.bottom<=brickRect.top){
 
+      if (ballRect.bottom >= brickRect.top && ballRect.top <= brickRect.top) {
+        velocityY = -Math.abs(3 * Math.cos(angleEffect));
+      } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
         velocityY = Math.abs(3 * Math.cos(angleEffect));
       }
-       
     }
   }
-  
 }
 
 
@@ -49,23 +45,29 @@ function moveBall() {
   ballX += velocityX;
   ballY += velocityY;
   let ballRect = ball.getBoundingClientRect()
-  console.log(ballRect);
   let paddle = document.getElementById('paddle')
   let rec = paddle.getBoundingClientRect()
   let game = div.getBoundingClientRect()
-  if (ballX <= 0 || ballX > game.width - ballRect.width ) {
-    velocityX *= -1;
-  } 
-  
+
+    if (ballX <= 0) {
+      ballX = 0
+      velocityX *= -1;
+    } else if (ballX > game.width - ballRect.width) {
+      ballX = game.width - ballRect.width
+      velocityX *= -1;
+    }
+
    if (ballY <= 0) {
     velocityY *= -1;
   }
 
   bricksBreakid(ballRect)
-  
-  if (detecteted(ballRect, rec)) { 
+
+  if (topdetected(ballRect, rec)) {
+    isrecersived = false
     let hitPosition = postion(ballRect, rec);
-     if (hitPosition < -0.3) {
+    console.log(hitPosition);
+    if (hitPosition < -0.3) {
       velocityX *= -1
     }
     else if (hitPosition > 0.3) {
@@ -76,10 +78,8 @@ function moveBall() {
     }
 
     let angleEffect = hitPosition * Math.PI / 6;
-    let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
-
-    velocityX = (6 * Math.sin(angleEffect));
-    velocityY = -Math.abs(6 * Math.cos(angleEffect));
+    velocityX = (3 * Math.sin(angleEffect));
+    velocityY = -Math.abs(3 * Math.cos(angleEffect));
 
   }
 
@@ -93,18 +93,16 @@ function moveBall() {
   }
 }
 function detecteted(ballRect, rec) {
-  return ballRect.x + ballRect.width >= rec.x && // right
-    ballRect.x <= rec.x + rec.width && // left
-    ballRect.y + ballRect.height > rec.y && // bottom
-    ballRect.y < rec.y + rec.height ; // top
+  return ballRect.x + ballRect.width >= rec.x &&
+    ballRect.x <= rec.x + rec.width &&
+    ballRect.y + ballRect.height > rec.y &&
+    ballRect.y < rec.y + rec.height
 }
-function topandBottomdetected(ballRect, brick) {
-   
-  return  detecteted(ballRect, brick) && 
-    ballRect.right >= brick.left && // right
-    ballRect.left <= brick.right && // left
-    ballRect.bottom >= brick.top && // bottom
-    ballRect.top <= brick.bottom ; // top
+function topdetected(ballRect, brick) {
+  return   ballRect.right >= brick.left &&
+    ballRect.left <= brick.right &&
+    ballRect.bottom >= brick.top &&
+    ballRect.top <= brick.bottom
 }
 function postion(ballRect, rec) {
   let ballCenter = ballRect.x + ballRect.width / 2; // مركز الكرة

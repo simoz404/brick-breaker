@@ -3,9 +3,8 @@ let bricks = document.getElementsByClassName("brick")
 let isPause = false
 let velocityX = -1;
 let velocityY = 2;
-let ballX = 360;
+let ballX = 300;
 let ballY = 520;
-
 let scorep = 0;
 let div = document.querySelector("#game-area")
 let currentBrickIndex = 0;
@@ -16,9 +15,7 @@ function bricksBreakid(ballRect) {
 
 
     if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
-      let hitPosition = postion(ballRect, brickRect);
-      console.log(hitPosition, velocityY , velocityX);
-      
+      let hitPosition = postion(ballRect, brickRect);      
       if (hitPosition < -0.5) {
         velocityY *= -1;
       } else if (hitPosition > 0.5) {
@@ -107,8 +104,8 @@ function topdetected(ballRect, brick) {
     ballRect.top <= brick.bottom
 }
 function postion(ballRect, rec) {
-  let ballCenter = ballRect.x + ballRect.width / 2; // مركز الكرة
-  let paddleCenter = rec.x + rec.width / 2;         // مركز المضرب
+  let ballCenter = ballRect.x + ballRect.width / 2; 
+  let paddleCenter = rec.x + rec.width / 2;        
   let hitPosition = ballCenter - paddleCenter;
   let direction = hitPosition / (rec.width / 2);
   return direction

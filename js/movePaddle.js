@@ -3,7 +3,7 @@ let paddle = document.getElementById("paddle");
 let moveSpeed = 5;
 let isMovingLeft = false;
 let isMovingRight = false;
-let paddlePosition = 295;
+let paddlePosition = 235;
 
 document.addEventListener("keydown", keyDownHandler);
 document.addEventListener("keyup", keyUpHandler);
@@ -27,9 +27,12 @@ function keyUpHandler(e) {
 
 
 function movePaddle() {
+  let game = div.getBoundingClientRect()
+  let paddleRec = paddle.getBoundingClientRect()
+
   if (isMovingLeft && paddlePosition > 0) {
     paddlePosition -= moveSpeed;
-  } else if (isMovingRight && paddlePosition < 590) {
+  } else if (isMovingRight && paddlePosition < game.width - paddleRec.width) {
     paddlePosition += moveSpeed;
   }
 

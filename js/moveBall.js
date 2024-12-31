@@ -1,9 +1,7 @@
-
-
 let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
 console.log(bricks);
-
+let n = 0
 let isPause = false
 let velocityX = -1;
 let velocityY = 2;
@@ -16,7 +14,6 @@ let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
-
     if (topdetected(ballRect, brickRect) && !brick.classList.contains('breaked')) {
       let hitPosition = postion(ballRect, brickRect);
       console.log(hitPosition);
@@ -28,8 +25,18 @@ function bricksBreakid(ballRect) {
       } else {
         velocityX *= 0.5;
       }
-      brick.classList.add('breaked');
+      // crack.style.display = 'block'
+      // brick.classList.add('breaked');
+      // console.log(brick.id);
+      
+      if (brick.className.includes('crack')) {
+        brick.classList.add('breaked');
+      }
+      brick.classList.add('crack');
+          // crack.className = 'crack'
       scorep++
+      console.log(scorep);
+      
       score()
       let angleEffect = hitPosition * Math.PI / 6;
       let newSpeed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
@@ -38,7 +45,6 @@ function bricksBreakid(ballRect) {
       velocityY = Math.abs(6 * Math.cos(angleEffect));
     }
   }
-  
 }
 
 
@@ -55,7 +61,7 @@ function moveBall() {
    if (ballY <= 0) {
     velocityY *= -1;
   }
-
+  
   bricksBreakid(ballRect)
   
   if (detecteted(ballRect, rec)) {

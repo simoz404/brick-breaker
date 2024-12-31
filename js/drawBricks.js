@@ -1,5 +1,5 @@
 let bricksContainer = document.getElementById("bricks-container");
-
+let id = 0
 function drawBricks() {
 scorep =0
   const colorList = [
@@ -21,16 +21,18 @@ function createBricks(brickColor) {
     let brick = document.createElement("div");
     let brickFace = document.createElement("div");
     let brickShadow = document.createElement("div");
-
+    let crack = document.createElement('img')
+    brick.id = id
     brick.classList.add(brickColor)
     brickFace.classList.add(brickColor)
     brickShadow.classList.add('brick-shadow')
     brickFace.classList.add('brick-face')
     brick.classList.add('brick');
-
+    crack.src = './styles/crack.png'
+    brick.appendChild(crack)
     brick.appendChild(brickFace);
     brick.appendChild(brickShadow);
-
     bricksContainer.append(brick);
+    id++
   }
 }

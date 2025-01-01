@@ -1,6 +1,5 @@
 let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
-let div = document.querySelector("#game-area")
 let scoreDisplay = document.getElementById("score");
 
 let livesNum = 3
@@ -10,11 +9,12 @@ const gameState = {
   speed: 5,
   score: 0,
   isPaused: false,
-  isGameOver: false,
+  // isGameOver: false,
   ball: {x: 300, y: 520, velocityX: -2, velocityY: 3}
 };
 
 function bricksBreakid(ballRect) {
+
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
 
@@ -63,6 +63,7 @@ function moveBall() {
   }
 
   bricksBreakid(ballRect)
+  checkYouWin()
 
   if (detecteted(ballRect, paddleRect)) {
 
@@ -86,7 +87,7 @@ function moveBall() {
   ball.style.transform = `translate(${gameState.ball.x}px, ${gameState.ball.y}px)`;
 
   if (gameState.ball.y > 600) {
-    gameOver()
+    gameStates('GAME OVER')
   } else if (!gameState.isPaused) {
     requestAnimationFrame(moveBall);
   }
@@ -143,4 +144,13 @@ function updateBallVelocity(hitPosition) {
 function updateScore() {
   gameState.score++;
   scoreDisplay.innerHTML = `Score: ${gameState.score}`;
+}
+
+function checkYouWin() {
+  for (let brick of bricks) {
+    if (!brick.classList.contains('breaked')) {
+      return
+    }
+  }
+  gameStates('YOU WIN');
 }

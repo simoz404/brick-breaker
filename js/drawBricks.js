@@ -4,7 +4,7 @@ livesNum = 3
   const colorList = [
     "red",
     "purple",
-  //   "green",
+    "green",
   //  "blue",
   //   "pink",
     // "yellow",

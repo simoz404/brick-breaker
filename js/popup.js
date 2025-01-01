@@ -39,10 +39,7 @@ function clearPopup() {
 }
 
 function resetGameState() {
-    gameState.ball.x = 300;
-    gameState.ball.y = 520;
-    gameState.ball.velocityX = -3;
-    gameState.ball.velocityY = -3;
+    gameState.ball = {x: 300, y: 520, velocityX: -2, velocityY: 3};
     gameState.isPaused = false;
     gameState.score = 0;
 }
@@ -88,6 +85,7 @@ function handleQuitButton() {
     document.getElementById('quit').addEventListener('click', () => {
         hidePopup();
         bricksContainer.innerHTML = '';
+        paddlePosition = 235;
         startGame();
     });
 }
@@ -116,13 +114,16 @@ function startGame() {
     handlePlayButton();
 }
 
-function gameOver() {
+function gameStates(textGameState) {
     stopTimer();
     clearPopup();
     showPopup();
+    resetGameState()
+    gameState.isPaused = true;
+    paddlePosition = 235;
     
     popup.appendChild(createImage());
-    popup.appendChild(createHeading('GAME OVER'));
+    popup.appendChild(createHeading(textGameState));
     
     const timeElement = document.createElement('h3');
     timeElement.textContent = timerDisplay.textContent;
@@ -138,6 +139,7 @@ function gameOver() {
     handleQuitButton();
     handleRestartButton();
 }
+
 
 btnPause.addEventListener('click', pauseGame);
 

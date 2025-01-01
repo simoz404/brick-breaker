@@ -1,4 +1,5 @@
 let paddle = document.getElementById("paddle");
+let div = document.querySelector("#game-area")
 
 let moveSpeed = 5;
 let isMovingLeft = false;

@@ -4,6 +4,8 @@ let div = document.querySelector("#game-area")
 let scoreDisplay = document.getElementById("score");
 
 let livesNum = 3
+let timerInterval;
+
 const gameState = {
   speed: 5,
   score: 0,
@@ -46,7 +48,7 @@ function moveBall() {
   gameState.ball.y += gameState.ball.velocityY;
 
   let ballRect = ball.getBoundingClientRect()
-  let rec = paddle.getBoundingClientRect()
+  let paddleRect = paddle.getBoundingClientRect()
   let game = div.getBoundingClientRect()
 
   if (gameState.ball.x <= 0) {
@@ -105,7 +107,6 @@ function postion(ballRect, rect) {
   return direction
 }
 
-let timerInterval;
 function startTimer() {
   let seconds = 1;
   let minutes = 0;

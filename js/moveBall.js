@@ -6,10 +6,9 @@ let livesNum = 3
 let timerInterval;
 
 const gameState = {
-  speed: 5,
+  speed: 7,
   score: 0,
   isPaused: false,
-  // isGameOver: false,
   ball: {x: 300, y: 520, velocityX: -2, velocityY: 3}
 };
 

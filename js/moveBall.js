@@ -1,6 +1,7 @@
 let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
 let div = document.querySelector("#game-area")
+let scoreDisplay = document.getElementById("score");
 
 let livesNum = 3
 const gameState = {
@@ -14,8 +15,10 @@ const gameState = {
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
+
     if (detecteted(ballRect, brickRect) && !brick.classList.contains('breaked')) {
       let hitPosition = postion(ballRect, brickRect);
+
       if (hitPosition < -0.5) {
         gameState.ball.velocityY *= -1;
       } else if (hitPosition > 0.5) {
@@ -23,16 +26,15 @@ function bricksBreakid(ballRect) {
       } else {
         gameState.ball.velocityY *= 0.5;
       }
-      brick.classList.add('breaked');
-      gameState.score++;
-      score()
-      let angleEffect = hitPosition * Math.PI / 6;
-      gameState.ball.velocityX = gameState.speed * Math.sin(angleEffect);
 
+      brick.classList.add('breaked');
+      updateScore()
+      updateBallVelocity(hitPosition)
+    
       if (ballRect.bottom >= brickRect.top && ballRect.top <= brickRect.top) {
-        gameState.ball.velocityY = -Math.abs(gameState.speed * Math.cos(angleEffect));
+        gameState.ball.velocityY *= 1 
       } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
-        gameState.ball.velocityY = Math.abs(gameState.speed * Math.cos(angleEffect));
+        gameState.ball.velocityY *= -1
       }
     }
   }
@@ -42,6 +44,7 @@ function bricksBreakid(ballRect) {
 function moveBall() {
   gameState.ball.x += gameState.ball.velocityX;
   gameState.ball.y += gameState.ball.velocityY;
+
   let ballRect = ball.getBoundingClientRect()
   let rec = paddle.getBoundingClientRect()
   let game = div.getBoundingClientRect()
@@ -59,10 +62,11 @@ function moveBall() {
 
   bricksBreakid(ballRect)
 
-  if (detecteted(ballRect, rec)) {
+  if (detecteted(ballRect, paddleRect)) {
+
+    let hitPosition = postion(ballRect, paddleRect);
     isrecersived = false
-    let hitPosition = postion(ballRect, rec);
-    console.log(hitPosition);
+
     if (hitPosition < -0.3) {
       gameState.ball.velocityX *= -1
     }
@@ -73,9 +77,7 @@ function moveBall() {
       gameState.ball.velocityX *= 0.5;
     }
 
-    let angleEffect = hitPosition * Math.PI / 6;
-    gameState.ball.velocityX = (gameState.speed * Math.sin(angleEffect));
-    gameState.ball.velocityY = -Math.abs(gameState.speed * Math.cos(angleEffect));
+    updateBallVelocity(hitPosition)
 
   }
 
@@ -87,57 +89,57 @@ function moveBall() {
     requestAnimationFrame(moveBall);
   }
 }
-function detecteted(ballRect, rec) {
-  return ballRect.x + ballRect.width >= rec.x &&
-    ballRect.x <= rec.x + rec.width &&
-    ballRect.y + ballRect.height > rec.y &&
-    ballRect.y < rec.y + rec.height
+
+function detecteted(ballRect, rect) {
+  return ballRect.right >= rect.left &&
+    ballRect.left <= rect.right &&
+    ballRect.bottom >= rect.top &&
+    ballRect.top <= rect.bottom
 }
-function topdetected(ballRect, brick) {
-  return ballRect.right >= brick.left &&
-    ballRect.left <= brick.right &&
-    ballRect.bottom >= brick.top &&
-    ballRect.top <= brick.bottom
-}
-function postion(ballRect, rec) {
+
+function postion(ballRect, rect) {
   let ballCenter = ballRect.x + ballRect.width / 2;
-  let paddleCenter = rec.x + rec.width / 2;
+  let paddleCenter = rect.x + rect.width / 2;
   let hitPosition = ballCenter - paddleCenter;
-  let direction = hitPosition / (rec.width / 2);
+  let direction = hitPosition / (rect.width / 2);
   return direction
 }
 
-var t;
-function timer() {
-  var sec = 1
-  var min = 0
-  let timer = document.getElementById('timer')
-  let s = '0'
-  let m = '0'
-  t = setInterval(() => {
-    if (!gameState.isPaused) {
-      timer.innerHTML = 'Timer: ' + m + min + ':' + s + sec;
-      if (sec >= 9) {
-        s = ''
+let timerInterval;
+function startTimer() {
+  let seconds = 1;
+  let minutes = 0;
+  let secondsPrefix = '0';
+  let minutesPrefix = '0';
+  
+  timerInterval = setInterval(() => {
+      if (!gameState.isPaused) {
+          timerDisplay.innerHTML = `Timer: ${minutesPrefix}${minutes}:${secondsPrefix}${seconds}`;
+          
+          if (seconds >= 9) secondsPrefix = '';
+          if (minutes >= 9) minutesPrefix = '';
+          
+          if (seconds === 60) {
+              secondsPrefix = '0';
+              seconds = 0;
+              minutes++;
+          }
+          seconds++;
       }
-      if (min >= 9) {
-        m = ''
-      }
-      if (sec == 60) {
-        s = '0'
-        sec = -1
-        min++
-      }
-      sec++
-    }
-  }, 1000)
+  }, 1000);
 }
 
-function stop() {
-  clearInterval(t)
+function stopTimer() {
+  clearInterval(timerInterval)
 }
 
-function score() {
-  let scorediv = document.getElementById("score")
-  scorediv.innerHTML = 'Score: ' + gameState.score
+function updateBallVelocity(hitPosition) {
+  let angleEffect = hitPosition * Math.PI / 6;
+  gameState.ball.velocityX = (gameState.speed * Math.sin(angleEffect));
+  gameState.ball.velocityY = -Math.abs(gameState.speed * Math.cos(angleEffect));
+}
+
+function updateScore() {
+  gameState.score++;
+  scoreDisplay.innerHTML = `Score: ${gameState.score}`;
 }

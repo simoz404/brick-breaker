@@ -2,7 +2,6 @@ const popup = document.querySelector('.popup');
 const shadowBackground = document.querySelector('.shadow-background');
 const btnPause = document.getElementById('pause');
 const timerDisplay = document.getElementById('timer');
-const scoreDisplay = document.getElementById('score');
 const livesDisplay = document.getElementById('lives');
 
 function createImage() {
@@ -50,7 +49,7 @@ function resetGameState() {
 
 function handlePlayButton() {
     document.getElementById('play').addEventListener('click', () => {
-        timer();
+        startTimer();
         hidePopup();
         resetGameState();
         drawBricks();
@@ -78,8 +77,8 @@ function handleRestartButton() {
         paddlePosition = 235;
         resetGameState();
         
-        stop();
-        timer();
+        stopTimer();
+        startTimer();
         drawBricks();
         requestAnimationFrame(moveBall);
     });
@@ -118,7 +117,7 @@ function startGame() {
 }
 
 function gameOver() {
-    stop();
+    stopTimer();
     clearPopup();
     showPopup();
     

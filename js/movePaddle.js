@@ -24,8 +24,6 @@ function keyUpHandler(e) {
   }
 }
 
-
-
 function movePaddle() {
   let game = div.getBoundingClientRect()
   let paddleRec = paddle.getBoundingClientRect()

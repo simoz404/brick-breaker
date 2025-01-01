@@ -1,142 +1,145 @@
-let pop = document.querySelector('.popup');
-let shadowBackground = document.querySelector('.shadow-background')
-let btnPause = document.getElementById('pause')
-let brickss = document.getElementById('bricks-container')
-let timerd = document.getElementById('timer')
-let scored = document.getElementById('score')
-let livesd = document.getElementById('lives')
+const popup = document.querySelector('.popup');
+const shadowBackground = document.querySelector('.shadow-background');
+const btnPause = document.getElementById('pause');
+const timerDisplay = document.getElementById('timer');
+const scoreDisplay = document.getElementById('score');
+const livesDisplay = document.getElementById('lives');
 
-btnPause.addEventListener('click', () => {
-    gameState.isPaused = true
-    pop.innerHTML = ''
-    shadowBackground.style.display = 'block'
-    pause()
-    pop.classList.add("open-popup");
-})
-
-function pause() {
-    let img = document.createElement('img');
+function createImage() {
+    const img = document.createElement('img');
     img.src = './styles/logo.jpg';
-    let h2 = document.createElement('h2');
-    h2.textContent = 'Paused';
-    let btn = document.createElement('button');
-    btn.textContent = 'continue';
-    btn.id = 'resume'
-    let btn2 = document.createElement('button');
-    btn2.textContent = 'Restart';
-    btn2.className = 'restart'
-    pop.appendChild(img)
-    pop.appendChild(h2);
-    pop.appendChild(btn);
-    pop.appendChild(btn2);
-    restart()
-    resume()
+    return img;
 }
 
-
-function start() {
-    pop.innerHTML = ''
-    let img = document.createElement('img');
-    img.src = './styles/logo.jpg';
-    let btn = document.createElement('button');
-    btn.textContent = 'Play';
-    btn.id = 'play'
-    shadowBackground.style.display = 'block'
-    pop.appendChild(img)
-    pop.appendChild(btn);
-    pop.classList.add("open-popup");
-    play()
+function createHeading(text) {
+    const heading = document.createElement('h2');
+    heading.textContent = text;
+    return heading;
 }
 
+function createButton(text, id = '', className = '') {
+    const button = document.createElement('button');
+    button.textContent = text;
+    if (id) button.id = id;
+    if (className) button.className = className;
+    return button;
+}
 
+function showPopup() {
+    shadowBackground.style.display = 'block';
+    popup.classList.add('open-popup');
+}
 
-start();
-function play() {
-    let play = document.getElementById('play')
-    play.addEventListener('click', () => {
-        timer()
-        popup.classList.remove("open-popup")
-        gameState.ball.x = 300;
-        gameState.ball.x = 520;
-        gameState.ball.velocityX = -3;
-        gameState.ball.velocityY = -3;
-        shadowBackground.style.display = 'none'
-        gameState.isPaused = false;
+function hidePopup() {
+    popup.classList.remove('open-popup');
+    shadowBackground.style.display = 'none';
+}
+
+function clearPopup() {
+    popup.innerHTML = '';
+}
+
+function resetGameState() {
+    gameState.ball.x = 300;
+    gameState.ball.y = 520;
+    gameState.ball.velocityX = -3;
+    gameState.ball.velocityY = -3;
+    gameState.isPaused = false;
+    gameState.score = 0;
+}
+
+function handlePlayButton() {
+    document.getElementById('play').addEventListener('click', () => {
+        timer();
+        hidePopup();
+        resetGameState();
         drawBricks();
         requestAnimationFrame(moveBall);
-    })
+    });
+}
+
+function handleResumeButton() {
+    document.getElementById('resume').addEventListener('click', () => {
+        hidePopup();
+        gameState.isPaused = false;
+        requestAnimationFrame(moveBall);
+    });
+}
+
+function handleRestartButton() {
+    document.getElementsByClassName('restart')[0].addEventListener('click', () => {
+        hidePopup();
+        timerDisplay.innerHTML = 'Timer: 00:00';
+        scoreDisplay.innerHTML = 'Score: 0';
+        livesDisplay.innerHTML = 'Lives: 3';
+        bricksContainer.innerHTML = '';
+        
+        livesNum = 3;
+        paddlePosition = 235;
+        resetGameState();
+        
+        stop();
+        timer();
+        drawBricks();
+        requestAnimationFrame(moveBall);
+    });
+}
+
+function handleQuitButton() {
+    document.getElementById('quit').addEventListener('click', () => {
+        hidePopup();
+        bricksContainer.innerHTML = '';
+        startGame();
+    });
+}
+
+function pauseGame() {
+    gameState.isPaused = true;
+    clearPopup();
+    showPopup();
+    
+    popup.appendChild(createImage());
+    popup.appendChild(createHeading('Paused'));
+    popup.appendChild(createButton('Continue', 'resume'));
+    popup.appendChild(createButton('Restart', '', 'restart'));
+    
+    handleRestartButton();
+    handleResumeButton();
+}
+
+function startGame() {
+    clearPopup();
+    
+    popup.appendChild(createImage());
+    popup.appendChild(createButton('Play', 'play'));
+    
+    showPopup();
+    handlePlayButton();
 }
 
 function gameOver() {
-    stop()
-    pop.innerHTML = ''
-    shadowBackground.style.display = 'block'
-    pop.classList.add("open-popup");
-    let img = document.createElement('img');
-    img.src = './styles/logo.jpg';
-    let t = document.createElement('h3')
-    t.textContent = timerd.textContent
-    let s = document.createElement('h3')
-    s.textContent = scored.textContent
-    let btn = document.createElement('button');
-    btn.textContent = 'Restart';
-    btn.className = 'restart'
-    let btn2 = document.createElement('button');
-    btn2.textContent = 'Quit';
-    btn2.id = 'quit'
-    let h2 = document.createElement('h2');
-    h2.textContent = 'GAME OVER';
-    pop.appendChild(img)
-    pop.appendChild(h2)
-    pop.appendChild(t)
-    pop.appendChild(s)
-    pop.appendChild(btn);
-    pop.appendChild(btn2)
-    clearInterval(t)
-    quit()
-    restart()
+    stop();
+    clearPopup();
+    showPopup();
+    
+    popup.appendChild(createImage());
+    popup.appendChild(createHeading('GAME OVER'));
+    
+    const timeElement = document.createElement('h3');
+    timeElement.textContent = timerDisplay.textContent;
+    popup.appendChild(timeElement);
+    
+    const scoreElement = document.createElement('h3');
+    scoreElement.textContent = scoreDisplay.textContent;
+    popup.appendChild(scoreElement);
+    
+    popup.appendChild(createButton('Restart', '', 'restart'));
+    popup.appendChild(createButton('Quit', 'quit'));
+    
+    handleQuitButton();
+    handleRestartButton();
 }
 
-function resume() {
-    let btnresume = document.getElementById('resume')
-    btnresume.addEventListener('click', () => {
-        popup.classList.remove("open-popup")
-        shadowBackground.style.display = 'none'
-        gameState.isPaused = false;
+btnPause.addEventListener('click', pauseGame);
 
-        requestAnimationFrame(moveBall);
-    })
-}
-
-function restart() {
-    let btnrestart = document.getElementsByClassName('restart')
-    btnrestart[0].addEventListener('click', () => {
-        popup.classList.remove("open-popup");
-        timerd.innerHTML = 'Timer: 00:00'
-        scored.innerHTML = 'Score: 0'
-        livesd.innerHTML = 'Lives: 3'
-        brickss.innerHTML = ''
-        shadowBackground.style.display = 'none'
-        livesNum = 3
-        gameState.isPaused = false;
-        gameState.ball.x = 300;
-        gameState.ball.x = 520;
-        gameState.ball.velocityX = -3;
-        gameState.ball.velocityY = -3;
-        paddlePosition = 235
-        stop()
-        timer()
-        drawBricks();
-        requestAnimationFrame(moveBall);
-    })
-}
-
-function quit() {
-    let btmquit = document.getElementById('quit')
-    btmquit.addEventListener('click', () => {
-        popup.classList.remove("open-popup")
-        brickss.innerHTML = ''
-         shadowBackground.style.display = 'none'
-        start()
-    })
-}
+startGame();

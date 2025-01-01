@@ -2,19 +2,15 @@ let ball = document.getElementById("ball");
 let bricks = document.getElementsByClassName("brick")
 let div = document.querySelector("#game-area")
 
-let scorep = 0;
-let speed = 5
-
-
+let livesNum = 3
 const gameState = {
+  speed: 5,
   score: 0,
   isPaused: false,
   isGameOver: false,
   ball: {x: 300, y: 520, velocityX: -2, velocityY: 3}
 };
 
-
-let currentBrickIndex = 0;
 function bricksBreakid(ballRect) {
   for (let brick of bricks) {
     let brickRect = brick.getBoundingClientRect();
@@ -31,12 +27,12 @@ function bricksBreakid(ballRect) {
       gameState.score++;
       score()
       let angleEffect = hitPosition * Math.PI / 6;
-      gameState.ball.velocityX = speed * Math.sin(angleEffect);
+      gameState.ball.velocityX = gameState.speed * Math.sin(angleEffect);
 
       if (ballRect.bottom >= brickRect.top && ballRect.top <= brickRect.top) {
-        gameState.ball.velocityY = -Math.abs(speed * Math.cos(angleEffect));
+        gameState.ball.velocityY = -Math.abs(gameState.speed * Math.cos(angleEffect));
       } else if (ballRect.top <= brickRect.bottom && ballRect.bottom >= brickRect.bottom) {
-        gameState.ball.velocityY = Math.abs(speed * Math.cos(angleEffect));
+        gameState.ball.velocityY = Math.abs(gameState.speed * Math.cos(angleEffect));
       }
     }
   }
@@ -47,7 +43,6 @@ function moveBall() {
   gameState.ball.x += gameState.ball.velocityX;
   gameState.ball.y += gameState.ball.velocityY;
   let ballRect = ball.getBoundingClientRect()
-  let paddle = document.getElementById('paddle')
   let rec = paddle.getBoundingClientRect()
   let game = div.getBoundingClientRect()
 
@@ -79,8 +74,8 @@ function moveBall() {
     }
 
     let angleEffect = hitPosition * Math.PI / 6;
-    gameState.ball.velocityX = (speed * Math.sin(angleEffect));
-    gameState.ball.velocityY = -Math.abs(speed * Math.cos(angleEffect));
+    gameState.ball.velocityX = (gameState.speed * Math.sin(angleEffect));
+    gameState.ball.velocityY = -Math.abs(gameState.speed * Math.cos(angleEffect));
 
   }
 
@@ -144,5 +139,5 @@ function stop() {
 
 function score() {
   let scorediv = document.getElementById("score")
-  scorediv.innerHTML = 'Score: ' + scorep
+  scorediv.innerHTML = 'Score: ' + gameState.score
 }

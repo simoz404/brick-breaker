@@ -87,6 +87,13 @@ function moveBall() {
   ball.style.transform = `translate(${gameState.ball.x}px, ${gameState.ball.y}px)`;
 
   if (gameState.ball.y > 600) {
+        livesNum--;
+        livesDisplay.innerHTML = 'Lives: '+livesNum;
+        paddlePosition = 235;
+        gameState.ball = {x: 300, y: 520, velocityX: -2, velocityY: 3};
+        gameState.isPaused = false;
+        moveBall()
+  } else if (livesNum == 0){
     gameStates('GAME OVER')
   } else if (!gameState.isPaused) {
     requestAnimationFrame(moveBall);
